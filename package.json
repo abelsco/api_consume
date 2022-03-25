@@ -1,0 +1,21 @@
+{
+  "name": "api_consume",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "Abel Menezes <abelsmenezes@gmail.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "express": "^4.17.3",
+    "follow-redirects": "^1.14.9",
+    "mongoose": "^6.2.8",
+    "qs": "^6.9.7",
+    "safe-buffer": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

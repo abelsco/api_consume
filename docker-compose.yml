@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  apiconsume:
+    image: apiconsume
+    container_name: apiconsume
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file: .env
+    environment:    
+      NODE_ENV: production
+       MONGO_USERNAME=$MONGO_USERNAME
+       MONGO_PASSWORD=$MONGO_PASSWORD
+       MONGO_HOSTNAME=db
+       MONGO_PORT=$MONGO_PORT
+       MONGO_DB=$MONGO_DB
+
+    ports:
+      - $PORT:8080
+    restart: unless-stopped
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+    command: ./wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon server.js
+
+  db:
+    image: mongo
+    container_name: apiconsume_db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:
